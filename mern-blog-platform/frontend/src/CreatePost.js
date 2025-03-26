@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const CreatePost = () => {
+    const [successMessage, setSuccessMessage] = useState('');
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [author, setAuthor] = useState('');
@@ -9,8 +10,8 @@ const CreatePost = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/posts', { title, content, author });
-            console.log('Post created:', response.data);
+            await axios.post('http://localhost:5000/posts', { title, content, author });
+            setSuccessMessage('Post created successfully!');
             // Optionally redirect or clear the form
         } catch (error) {
             console.error('Error creating post:', error);
@@ -20,7 +21,7 @@ const CreatePost = () => {
     return (
         <div>
             <h1>Create a New Blog Post</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onReset={() => setSuccessMessage('')}>
                 <div>
                     <label>Author:</label>
                     <input type="text" value={author} onChange={(e) => setAuthor(e.target.value)} required />
@@ -32,6 +33,7 @@ const CreatePost = () => {
                     <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
                 </div>
                 <button type="submit">Create Post</button>
+                {successMessage && <p>{successMessage}</p>}
             </form>
         </div>
     );

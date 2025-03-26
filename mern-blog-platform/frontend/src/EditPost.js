@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 
 const EditPost = () => {
+    const [successMessage, setSuccessMessage] = useState('');
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -28,14 +29,14 @@ const EditPost = () => {
             console.log('Post updated:', response.data);
             // Optionally redirect or show a success message
         } catch (error) {
-            console.error('Error updating post:', error);
+            setSuccessMessage('Post updated successfully!');
         }
     };
 
     return (
         <div>
             <h1>Edit Blog Post</h1>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} onReset={() => setSuccessMessage('')}>
                 <div>
                     <label>Title:</label>
                     <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
@@ -45,6 +46,7 @@ const EditPost = () => {
                     <textarea value={content} onChange={(e) => setContent(e.target.value)} required />
                 </div>
                 <button type="submit">Update Post</button>
+                {successMessage && <p>{successMessage}</p>}
             </form>
         </div>
     );

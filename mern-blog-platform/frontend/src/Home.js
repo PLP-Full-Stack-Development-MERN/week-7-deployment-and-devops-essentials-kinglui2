@@ -11,6 +11,7 @@ const Home = () => {
                 setPosts(response.data);
             } catch (error) {
                 console.error('Error fetching posts:', error);
+                alert('Failed to fetch posts. Please try again later.');
             }
         };
 
@@ -22,7 +23,7 @@ const Home = () => {
             <h1>Blog Posts</h1>
             <ul>
                 {posts.map(post => (
-                    <li key={post.id}>
+                    <li key={post._id}>
                         <h2>{post.title}</h2>
                         <p>{post.content}</p>
                     </li>
